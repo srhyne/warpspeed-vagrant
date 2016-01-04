@@ -1,3 +1,10 @@
+### Main Repo
+
+This is my own updated Vagrant setup for Warpspeed. The original project is here...
+
+https://github.com/warpspeed/warpspeed-vagrant
+
+
 # WarpSpeed Vagrant Configuration
 
 We make web deployment easy. For complete information, please visit: http://warpspeed.io
