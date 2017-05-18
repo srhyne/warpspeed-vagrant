@@ -31,6 +31,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # web interface
     config.vm.network "forwarded_port", guest: 8080, host: 8080
 
+    # browsersync
+    config.vm.network :forwarded_port, guest: 3000, host: 3000, auto_correct: true
+    config.vm.network :forwarded_port, guest: 3001, host: 3001, auto_correct: true
+    # had issues with caching
+    config.vm.network :forwarded_port, guest: 3002, host: 3002, auto_correct: true
+
     config.vm.network :private_network, ip: ip
 
     # Use this config if you have nfs support (OSX or Linux).
