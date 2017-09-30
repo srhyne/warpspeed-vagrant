@@ -41,14 +41,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Use this config if you have nfs support (OSX or Linux).
     # Note: You will be required to enter your host root password during "vagrant up".
-    config.vm.synced_folder "~/Sites", "/home/vagrant/sites", type: "nfs", :mount_options => ["actimeo=2"]
+    # If you get an error on the sync_folder, remove /etc/exports on mac
+    config.vm.synced_folder "~/Sites/conveyour.dev", "/home/vagrant/sites/conveyour.dev", type: "nfs", 
+    :mount_options => ['rw', 'vers=3', 'tcp', 'fsc' ,'actimeo=2'],
+    linux__nfs_options: ['rw','no_subtree_check','all_squash','async']
 
     config.vm.provider "virtualbox" do |vb|
         vb.name = hostname
-        vb.memory = 2048
-        vb.cpus = 1
+        vb.memory = 4096
+        vb.cpus = 2
         vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
         vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+        vb.customize ["modifyvm", :id, "--ioapic", "on"]
         vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
     end
  # Edit the s.args below to determine what installers are called during provisioning.
