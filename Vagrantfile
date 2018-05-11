@@ -23,26 +23,46 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.network "forwarded_port", guest: 5672, host: 5672
     config.vm.network "forwarded_port", guest: 15672, host: 15672
 
-    # RethinkDB
-
-    # client port
-    config.vm.network "forwarded_port", guest: 28015, host: 28015
-
     # web interface
     config.vm.network "forwarded_port", guest: 8080, host: 8080
 
     # browsersync
-    config.vm.network :forwarded_port, guest: 3000, host: 3000, auto_correct: true
-    config.vm.network :forwarded_port, guest: 3001, host: 3001, auto_correct: true
-    # had issues with caching
-    config.vm.network :forwarded_port, guest: 3002, host: 3002, auto_correct: true
+    config.vm.network "forwarded_port", guest: 3002, host: 3002
+
+    # presence.io
+    config.vm.network "forwarded_port", guest: 16022, host: 16022
+
 
     config.vm.network :private_network, ip: ip
 
     # Use this config if you have nfs support (OSX or Linux).
     # Note: You will be required to enter your host root password during "vagrant up".
     # If you get an error on the sync_folder, remove /etc/exports on mac
-    config.vm.synced_folder "~/Sites/conveyour.dev", "/home/vagrant/sites/conveyour.dev", type: "nfs", 
+  
+    config.vm.synced_folder "~/Sites/conveyour.dev", "/home/vagrant/sites/conveyour.dev",
+    id: "conveyour",
+    type: "nfs", 
+    :mount_options => ['rw', 'vers=3', 'tcp', 'fsc' ,'actimeo=2', 'nolock'],
+    linux__nfs_options: ['rw','no_subtree_check','all_squash','async']
+
+
+    config.vm.synced_folder "~/Sites/presence.io", "/home/vagrant/sites/presence.io", 
+    id: "presence",
+    type: "nfs", 
+    :mount_options => ['rw', 'vers=3', 'tcp', 'fsc' ,'actimeo=2'],
+    linux__nfs_options: ['rw','no_subtree_check','all_squash','async']
+   
+    
+
+    # config.vm.synced_folder "~/Sites/lessons", "/home/vagrant/sites/lessons", 
+    # id: "lessons",
+    # type: "nfs", 
+    # :mount_options => ['rw', 'vers=3', 'tcp', 'fsc' ,'actimeo=2'],
+    # linux__nfs_options: ['rw','no_subtree_check','all_squash','async']
+
+    config.vm.synced_folder "~/Sites/webpditest.com", "/home/vagrant/sites/webpditest.com", 
+    id: "webpdi",
+    type: "nfs", 
     :mount_options => ['rw', 'vers=3', 'tcp', 'fsc' ,'actimeo=2'],
     linux__nfs_options: ['rw','no_subtree_check','all_squash','async']
 
